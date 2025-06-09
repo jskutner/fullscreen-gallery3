@@ -6,6 +6,7 @@
     .eko-gallery.eko-react-gallery .eko-nav-container {
         display: flex !important;
         flex-shrink: 0 !important;
+        height: 569px !important;
     }
 
     .eko-gallery.eko-react-gallery .eko-nav {
