@@ -19,9 +19,41 @@
         padding: var(--navBarPaddingEkoDesktop) !important;
     }
 
+    /* Navigation arrows */
+    .eko-gallery.eko-react-gallery .eko-nav-container button.eko-nav-arrow {
+        position: absolute !important;
+        width: 30px !important;
+        height: 30px !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 50% !important;
+        color: white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        z-index: 10 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .eko-gallery.eko-react-gallery .eko-nav-container button.eko-nav-arrow.eko-next-nav-button svg {
+    transform: rotate(90deg);
+    }
+
+    .eko-gallery.eko-react-gallery .eko-nav-container button.eko-nav-arrow:hover {
+        background: rgba(255, 255, 255, 0.8) !important;
+        border-color: white !important;
+    }
+
     .eko-gallery.eko-react-gallery .eko-nav-container button.eko-nav-arrow.eko-prev-nav-button {
-        right: 50% !important;
-        transform: translate(50%) !important;
+        top: 10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    .eko-gallery.eko-react-gallery .eko-nav-container button.eko-nav-arrow.eko-next-nav-button {
+        bottom: 10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
     }
 
     .eko-gallery.eko-react-gallery .eko-nav li {
