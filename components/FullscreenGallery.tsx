@@ -1,5 +1,6 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { EkoGallery, getEkoProductConfigUrl, ekoWebPixel } from '@ekolabs/eko-gallery-react';
+import { useSearchParams } from 'next/navigation';
 import '../app/globals.css';
 
 interface FullscreenGalleryProps {
@@ -13,6 +14,26 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const navContainerRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const navHeight = searchParams.get('navHeight');
+
+  // Log the navHeight value when it changes
+  useEffect(() => {
+    console.log('Nav height from URL:', navHeight);
+  }, [navHeight]);
+
+  // Set nav container height when navHeight is present
+  useEffect(() => {
+    if (!navHeight) return;
+    
+    const height = parseInt(navHeight, 10);
+    if (!isNaN(height)) {
+      console.log('Setting nav container height to:', height);
+      document.documentElement.style.setProperty('--nav-container-height', `${height}px`);
+    }
+  }, [navHeight]);
 
   // Initialize Eko Web Pixel
   useEffect(() => {
