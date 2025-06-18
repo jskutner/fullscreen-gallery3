@@ -1,18 +1,10 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import FullscreenGallery from '../../components/FullscreenGallery';
 
-export default function GalleryPageWrapper() {
-  return (
-    <Suspense fallback={<div style={{color: 'white', textAlign: 'center', marginTop: '2rem'}}>Loading...</div>}>
-      <GalleryPage />
-    </Suspense>
-  );
-}
-
-export function GalleryPage() {
+export default function GalleryPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
