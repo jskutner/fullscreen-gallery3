@@ -72,30 +72,24 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
 
         // Update image paths to use our thumbnails directory
         if (productConfig.items && Array.isArray(productConfig.items)) {
-          console.log('Original items:', productConfig.items);
           productConfig.items = productConfig.items.map((item: any) => {
-            console.log('Processing item:', item);
             if (item.thumbnail) {
-              // Extract the filename from the path
               const filename = item.thumbnail.split('/').pop();
-              console.log('Original thumbnail path:', item.thumbnail);
-              console.log('Extracted filename:', filename);
-              // Update the path to use our thumbnails directory
               item.thumbnail = `/images/gallery-thumbnails/${filename}`;
-              console.log('New thumbnail path:', item.thumbnail);
             }
             return item;
           });
-          console.log('Updated items:', productConfig.items);
         }
 
-        // Add required properties if they don't exist
+        // Create the final config object with all required properties
         const galleryConfig = {
           ...productConfig,
           loadingTimeout: productConfig.loadingTimeout || 30000,
           piid,
           productId,
-          scid
+          scid,
+          publishItem: productConfig.publishItem || {},
+          items: productConfig.items || []
         };
 
         console.log('Final gallery config:', galleryConfig);
