@@ -1,10 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import FullscreenGallery from '../../components/FullscreenGallery';
 
-export default function GalleryPage() {
+export default function GalleryPageWrapper() {
+  return (
+    <Suspense fallback={<div style={{color: 'white', textAlign: 'center', marginTop: '2rem'}}>Loading...</div>}>
+      <GalleryPage />
+    </Suspense>
+  );
+}
+
+export function GalleryPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -64,11 +72,11 @@ export default function GalleryPage() {
   };
 
   if (isLoading) {
-    return <div className="fixed inset-0 z-50 bg-black flex items-center justify-center text-white">Loading...</div>;
+    return <div style={{color: 'white', textAlign: 'center', marginTop: '2rem'}}>Loading...</div>;
   }
 
   if (error) {
-    return <div className="fixed inset-0 z-50 bg-black flex items-center justify-center text-white">{error}</div>;
+    return <div style={{color: 'white', textAlign: 'center', marginTop: '2rem'}}>{error}</div>;
   }
 
   if (!galleryConfig) {
