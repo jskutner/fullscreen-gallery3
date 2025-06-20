@@ -51,7 +51,10 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const configUrl = getEkoProductConfigUrl(scid);
+        const configUrlBase = getEkoProductConfigUrl(scid);
+        // Add cache buster
+        const cacheBuster = Date.now();
+        const configUrl = configUrlBase + (configUrlBase.includes('?') ? '&' : '?') + 'ck=' + cacheBuster;
         console.log('Fetching config from:', configUrl);
         
         const response = await fetch(configUrl);
