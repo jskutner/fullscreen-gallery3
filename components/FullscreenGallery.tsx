@@ -18,6 +18,7 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
   const navContainerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const navHeight = searchParams.get('navHeight');
+  const cacheBusterParam = searchParams.get('ck');
 
   // Log the navHeight value when it changes
   useEffect(() => {
@@ -52,9 +53,11 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
     const fetchConfig = async () => {
       try {
         const configUrlBase = getEkoProductConfigUrl(scid);
-        // Add cache buster
-        const cacheBuster = Date.now();
-        const configUrl = configUrlBase + (configUrlBase.includes('?') ? '&' : '?') + 'ck=' + cacheBuster;
+        // Only add cache buster if present in URL
+        let configUrl = configUrlBase;
+        if (cacheBusterParam) {
+          configUrl += (configUrlBase.includes('?') ? '&' : '?') + 'ck=' + encodeURIComponent(cacheBusterParam);
+        }
         console.log('Fetching config from:', configUrl);
         
         const response = await fetch(configUrl);
@@ -108,11 +111,10 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
     if (isInitialized) {
       fetchConfig();
     }
-  }, [scid, productId, piid, isInitialized]);
+  }, [scid, productId, piid, isInitialized, cacheBusterParam]);
 
   const onEkoGalleryEvent = useCallback((event: string, data: any) => {
-    console.log(`*** Received Eko Event: ${event}
-*** Payload: ${JSON.stringify(data)}`);
+    console.log(`*** Received Eko Event: ${event}\n*** Payload: ${JSON.stringify(data)}`);
   }, []);
 
   if (loading) {
@@ -141,4 +143,4 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
       />
     </div>
   );
-} 
+}
