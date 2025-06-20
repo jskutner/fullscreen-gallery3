@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { EkoGallery, getEkoProductConfigUrl, ekoWebPixel } from '@ekolabs/eko-gallery-react';
 import { useSearchParams } from 'next/navigation';
-import '../app/globals.css';
 
 interface FullscreenGalleryProps {
   piid: string;
