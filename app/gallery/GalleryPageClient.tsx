@@ -74,11 +74,11 @@ export default function GalleryPageClient() {
   if (!galleryConfig) {
     return (
       <div className="fixed inset-0 z-50 bg-black flex">
-        <div style={{ width: '70%', height: '100vh', position: 'relative' }}>
+        <div style={{ width: '50%', height: '100vh', position: 'relative' }}>
           {/* Gallery placeholder (left) */}
-          <span style={{ color: 'white', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>Gallery Area (70%)</span>
+          <span style={{ color: 'white', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>Gallery Area (50%)</span>
         </div>
-        <div className="column-right" style={{ width: '30%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="column-right" style={{ width: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {/* Placeholder for right column content */}
           <div style={{
             background: 'rgba(255, 255, 255, 0.1)',
@@ -261,16 +261,16 @@ export default function GalleryPageClient() {
 
   return (
     <div className="fixed inset-0 z-50 bg-black flex">
-      <div style={{ width: '70%', height: '100vh', position: 'relative' }}>
+      <div style={{ width: '50%', height: '100vh', position: 'relative' }}>
         <FullscreenGallery 
           piid={galleryConfig.piid}
           productId={galleryConfig.productId}
           scid={galleryConfig.scid}
         />
       </div>
-      <div className="column-right" style={{ width: '30%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="column-right" style={{ width: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {/* Placeholder for right column content */}
-        <span style={{ color: 'white', fontSize: '1.2rem' }}>Right Column (30%)</span>
+        <span style={{ color: 'white', fontSize: '1.2rem' }}>Right Column (50%)</span>
       </div>
     </div>
   );
