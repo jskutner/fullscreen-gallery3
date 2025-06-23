@@ -34,7 +34,6 @@ export default function GalleryPageClient() {
     const queryPiid = searchParams.get('piid');
     const queryProductId = searchParams.get('productId');
     const queryScid = searchParams.get('scid');
-    const queryNavHeight = searchParams.get('navHeight');
 
     // If all required query parameters are provided, use them
     if (queryPiid && queryProductId && queryScid) {
@@ -47,9 +46,9 @@ export default function GalleryPageClient() {
       return;
     }
 
-    // If no query parameters, show form
-    setIsLoading(false);
-  }, [searchParams]);
+    // If any required param is missing, redirect to /gallery/form
+    router.replace('/gallery/form');
+  }, [searchParams, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
