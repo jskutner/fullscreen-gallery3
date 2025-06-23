@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import FullscreenGallery from '../../components/FullscreenGallery';
+import dynamic from 'next/dynamic';
+const FullscreenGallery = dynamic(() => import('../../components/FullscreenGallery'), { ssr: false });
 
 export default function GalleryPageClient() {
   const searchParams = useSearchParams();
