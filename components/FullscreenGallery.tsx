@@ -118,7 +118,7 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
 
   if (loading) {
     return (
-      <div className="w-full h-full bg-black flex items-center justify-center text-white">
+      <div style={{width: '100%', height: '100%', background: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white'}}>
         Loading gallery...
       </div>
     );
@@ -126,14 +126,14 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
 
   if (error || !config) {
     return (
-      <div className="w-full h-full bg-black flex items-center justify-center text-white">
+      <div style={{width: '100%', height: '100%', background: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white'}}>
         {error || 'Failed to load gallery'}
       </div>
     );
   }
 
   return (
-    <div className="w-full h-full bg-black">
+    <div style={{width: '100%', height: '100%', background: 'black'}}>
       <EkoGallery
         className="w-full h-full"
         config={config}
