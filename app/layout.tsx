@@ -1,8 +1,8 @@
-import { getEkoAnalyticsSnippet } from '@ekolabs/eko-gallery-react';
+import './globals.css';
 
 export const metadata = {
-  title: 'Eko Embed Gallery',
-  description: 'Embed Eko Gallery in a website',
+  title: 'Eko Gallery Showcase',
+  description: 'Interactive Eko gallery showcase with dynamic content from Google Sheets',
 }
 
 export default function RootLayout({
@@ -13,14 +13,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          id="eko-analytics-snippet"
-          dangerouslySetInnerHTML={{
-            __html: getEkoAnalyticsSnippet(process.env.NODE_ENV === 'production'),
-          }}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+          rel="stylesheet"
         />
       </head>
-      <body style={{ margin: 0 }}>{children}</body>
+      <body style={{ margin: 0, fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>{children}</body>
     </html>
   )
 }

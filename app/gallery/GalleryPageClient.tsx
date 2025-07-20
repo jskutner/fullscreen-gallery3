@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { getEkoAnalyticsSnippet } from '@ekolabs/eko-gallery-react';
 import dynamic from 'next/dynamic';
 const FullscreenGallery = dynamic(() => import('../../components/FullscreenGallery'), { ssr: false });
 
@@ -28,6 +29,21 @@ export default function GalleryPageClient() {
       }
     }
   `;
+
+  // Load Eko Analytics only for gallery pages
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.id = 'eko-analytics-snippet';
+    script.innerHTML = getEkoAnalyticsSnippet(process.env.NODE_ENV === 'production');
+    document.head.appendChild(script);
+
+    return () => {
+      const existingScript = document.getElementById('eko-analytics-snippet');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     // Get query parameters
