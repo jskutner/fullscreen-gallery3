@@ -133,7 +133,7 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
   }
 
   return (
-    <div style={{width: '100%', height: '100%', background: 'black'}}>
+    <div style={{width: '100%', height: '100%'}}>
       <EkoGallery
         className="w-full h-full"
         config={config}
