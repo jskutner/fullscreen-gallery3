@@ -6,9 +6,10 @@ interface FullscreenGalleryProps {
   piid: string;
   productId: string;
   scid: string;
+  variantId?: string;
 }
 
-export default function FullscreenGallery({ piid, productId, scid }: FullscreenGalleryProps) {
+export default function FullscreenGallery({ piid, productId, scid, variantId }: FullscreenGalleryProps) {
   const [config, setConfig] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,14 +67,24 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
         
         const data = await response.json();
         console.log('API Response:', data);
+        console.log('Available products in data.data:', data.data ? Object.keys(data.data) : 'data.data is undefined');
+        console.log('Looking for productId:', productId);
 
         if (!data.data || !data.data[productId]) {
+          console.error('Product config not found. Available products:', data.data ? Object.keys(data.data) : []);
           throw new Error(`Invalid response format: missing config for product ${productId}`);
         }
 
         // Get the config for this specific product
         const productConfig = data.data[productId];
         console.log('Original Product config:', productConfig);
+        console.log('Product config type:', typeof productConfig);
+        console.log('Product config keys:', productConfig ? Object.keys(productConfig) : 'no keys');
+
+        // Additional safety check
+        if (!productConfig || typeof productConfig !== 'object') {
+          throw new Error(`Invalid product config for ${productId}: ${typeof productConfig}`);
+        }
 
         // Update image paths to use our thumbnails directory
         if (productConfig.items && Array.isArray(productConfig.items)) {
@@ -89,12 +100,12 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
         // Create the final config object with all required properties
         const galleryConfig = {
           ...productConfig,
-          loadingTimeout: productConfig.loadingTimeout || 30000,
+          loadingTimeout: productConfig?.loadingTimeout || 30000,
           piid,
           productId,
           scid,
-          publishItem: productConfig.publishItem || {},
-          items: productConfig.items || []
+          publishItem: productConfig?.publishItem || {},
+          items: productConfig?.items || []
         };
 
         console.log('Final gallery config:', galleryConfig);
@@ -137,7 +148,7 @@ export default function FullscreenGallery({ piid, productId, scid }: FullscreenG
       <EkoGallery
         className="w-full h-full"
         config={config}
-        variantId={productId}
+        variantId={variantId || productId}
         onEvent={onEkoGalleryEvent}
       />
     </div>

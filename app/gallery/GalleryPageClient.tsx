@@ -16,7 +16,8 @@ export default function GalleryPageClient() {
     piid: '',
     productId: '',
     scid: '',
-    navHeight: '500'
+    navHeight: '500',
+    variantId: ''
   });
 
   const responsiveStyles = `
@@ -50,13 +51,24 @@ export default function GalleryPageClient() {
     const queryPiid = searchParams.get('piid');
     const queryProductId = searchParams.get('productId');
     const queryScid = searchParams.get('scid');
+    
+    // Get variantId from hash fragment
+    const getVariantIdFromHash = () => {
+      if (typeof window === 'undefined') return '';
+      const hash = window.location.hash;
+      const match = hash.match(/[#&]variantId=([^&]*)/);
+      return match ? decodeURIComponent(match[1]) : '';
+    };
+    
+    const variantId = getVariantIdFromHash();
 
     // If all required query parameters are provided, use them
     if (queryPiid && queryProductId && queryScid) {
       setGalleryConfig({
         piid: queryPiid,
         productId: queryProductId,
-        scid: queryScid
+        scid: queryScid,
+        variantId: variantId
       });
       setIsLoading(false);
       return;
@@ -76,7 +88,7 @@ export default function GalleryPageClient() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { piid, productId, scid, navHeight } = formValues;
+    const { piid, productId, scid, navHeight, variantId } = formValues;
     
     // Build query string
     const queryString = new URLSearchParams({
@@ -86,8 +98,14 @@ export default function GalleryPageClient() {
       ...(navHeight && { navHeight })
     }).toString();
 
+    // Add variantId as hash fragment if provided
+    let url = `/gallery?${queryString}`;
+    if (variantId.trim()) {
+      url += `#variantId=${encodeURIComponent(variantId)}`;
+    }
+
     // Navigate to the same page with query parameters
-    router.push(`/gallery?${queryString}`);
+    router.push(url);
   };
 
   if (isLoading) {
@@ -249,6 +267,35 @@ export default function GalleryPageClient() {
                       placeholder="e.g., 500"
                     />
                   </div>
+                  <div>
+                    <label htmlFor="variantId" style={{
+                      display: 'block',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      color: '#d1d5db',
+                      marginBottom: '0.5rem'
+                    }}>
+                      Variant ID
+                    </label>
+                    <input
+                      type="text"
+                      id="variantId"
+                      name="variantId"
+                      value={formValues.variantId}
+                      onChange={handleInputChange}
+                      style={{
+                        width: '93%',
+                        padding: '0.75rem 1rem',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '0.5rem',
+                        color: 'white',
+                        outline: 'none',
+                        transition: 'all 0.2s'
+                      }}
+                      placeholder="Optional"
+                    />
+                  </div>
                 </div>
                 <button
                   type="submit"
@@ -298,6 +345,7 @@ export default function GalleryPageClient() {
             piid={galleryConfig.piid}
             productId={galleryConfig.productId}
             scid={galleryConfig.scid}
+            variantId={galleryConfig.variantId}
           />
         </div>
         <div className="column-right" style={{ width: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

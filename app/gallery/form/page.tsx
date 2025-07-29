@@ -7,6 +7,7 @@ export default function GalleryForm() {
   const [productId, setProductId] = useState("");
   const [scid, setScid] = useState("");
   const [ck, setCk] = useState("");
+  const [variantId, setVariantId] = useState("");
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -17,7 +18,14 @@ export default function GalleryForm() {
       scid,
       ...(ck && { ck }),
     });
-    router.push(`/gallery?${params.toString()}`);
+    
+    // Add variantId as hash fragment if provided
+    let url = `/gallery?${params.toString()}`;
+    if (variantId.trim()) {
+      url += `#variantId=${encodeURIComponent(variantId)}`;
+    }
+    
+    router.push(url);
   };
 
   return (
@@ -168,6 +176,35 @@ export default function GalleryForm() {
                 type="text"
                 value={ck}
                 onChange={e => setCk(e.target.value)}
+                placeholder="Optional"
+                style={{
+                  width: '90%',
+                  padding: '0.75rem 1rem',
+                  background: 'rgba(255,255,255,0.4)',
+                  border: '1px solid rgba(99,102,241,0.15)',
+                  borderRadius: '0.75rem',
+                  color: 'white',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  transition: 'border 0.2s',
+                  marginBottom: 0,
+                }}
+              />
+            </div>
+            <div>
+              <label style={{
+                display: 'block',
+                fontSize: '1rem',
+                fontWeight: 500,
+                color: '#c7d2fe',
+                marginBottom: '0.5rem',
+              }}>
+                Variant ID
+              </label>
+              <input
+                type="text"
+                value={variantId}
+                onChange={e => setVariantId(e.target.value)}
                 placeholder="Optional"
                 style={{
                   width: '90%',

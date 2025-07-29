@@ -8,6 +8,7 @@ export default function GalleryFormPage() {
     productId: '',
     scid: '',
     navHeight: '500',
+    variantId: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,14 +21,21 @@ export default function GalleryFormPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { piid, productId, scid, navHeight } = formValues;
+    const { piid, productId, scid, navHeight, variantId } = formValues;
     const queryString = new URLSearchParams({
       piid,
       productId,
       scid,
       ...(navHeight && { navHeight }),
     }).toString();
-    router.push(`/gallery?${queryString}`);
+    
+    // Add variantId as hash fragment if provided
+    let url = `/gallery?${queryString}`;
+    if (variantId.trim()) {
+      url += `#variantId=${encodeURIComponent(variantId)}`;
+    }
+    
+    router.push(url);
   };
 
   return (
@@ -178,6 +186,35 @@ export default function GalleryFormPage() {
                   transition: 'all 0.2s',
                 }}
                 placeholder="e.g., 500"
+              />
+            </div>
+            <div>
+              <label htmlFor="variantId" style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                color: '#d1d5db',
+                marginBottom: '0.5rem',
+              }}>
+                Variant ID
+              </label>
+              <input
+                type="text"
+                id="variantId"
+                name="variantId"
+                value={formValues.variantId}
+                onChange={handleInputChange}
+                style={{
+                  width: '93%',
+                  padding: '0.75rem 1rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '0.5rem',
+                  color: 'white',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                placeholder="Optional"
               />
             </div>
           </div>
